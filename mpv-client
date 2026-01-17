@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+
+SOCKET=/tmp/mpvsocket
+
+mpv-cmd() {
+    echo '{ "command": ['"$@"'] }' | socat - $SOCKET
+}
+
+show-help() {
+cat << "EOF"
+  -S <path>
+      Start mpv at <path>
+  -a <path>
+      Appends <path> to the end of playlist
+  -c <path>
+      Add <path> next in the playlist and immediately play it
+  -q <path>
+      Add <path> next in the playlist
+
+  -s <amount>
+      Seek by <amount> seconds in the current playback
+  -v <amount>
+      Change Volume by <amount>
+
+  -l
+      Toggle Playback Looping
+  -r
+      Restart Playback
+  -p
+      Play Previous
+  -P
+      Toggle Playback
+  -n
+      Play Next
+EOF
+}
+
+while getopts "S:a:c:q:s:v:lrpPn" opt; do
+    case "${opt}" in
+        S) mpv $OPTARG --input-ipc-server=$SOCKET --profile=music --terminal=no --shuffle --loop-playlist & ;;
+        a) mpv-cmd '"loadfile", "'$OPTARG'", "append-play"' ;;
+        c)
+            mpv-cmd '"loadfile", "'$OPTARG'", "insert-next"'
+            mpv-cmd '"playlist-next"'
+        ;;
+        q) mpv-cmd '"loadfile", "'$OPTARG'", "insert-next-play"' ;;
+
+        s) mpv-cmd '"seek", "'$OPTARG'"' ;;
+        v) mpv-cmd '"add", "volume", "'$OPTARG'"' ;;
+
+        l) mpv-cmd '"cycle-values", "loop-file", "inf", "no"' ;;
+        r) mpv-cmd '"seek", "0", "absolute"' ;;
+        p) mpv-cmd '"playlist-prev"' ;;
+        P) mpv-cmd '"cycle", "pause"' ;;
+        n) mpv-cmd '"playlist-next"' ;;
+        *) show-help ;;
+    esac
+done
+
+if [[ $# -eq 0 ]]; then
+    show-help
+    exit
+fi

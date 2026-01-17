@@ -1,30 +1,42 @@
-# mpv-control
-a collection of scripts to control the mpv media player from the terminal
+# **mpv-client**
+Remote control script for MPV using the built in JSON IPC
 
-Makes use of MPV's built in JSON IPC, so that you can run the player in one terminal and control it with scripts in another. 
+## Usage
+#### `./mpv-client -S <path>`
+Start mpv at \<path>
+<br>
+Example: `./mpv-client -S ~/Music`
 
----
-### Usage
-#### `./start.sh <media file>`
-Starts an mpv media server, running the media file in full screen
+#### `./mpv-client -a <path>`
+Appends \<path> to the end of playlist
 
-#### `./load.sh <media file>`
-Loads a new file in the running media server
+#### `./mpv-client -c <path>`
+Add \<path> next in the playlist and immediately play it
 
-#### `./start-at.sh <media file> <time in seconds>`
-Starts playing the media file at the position specified
+#### `./mpv-client -q <path>`
+Add \<path> next in the playlist
 
-#### `./loop.sh <media file>`
-Plays a new file and loops it
+<br>
 
-#### `./seek.sh <time in seconds>`
-Seeks the playback of the currently playing file
+#### `./mpv-client -s <amount>`
+Seek by \<amount> seconds in the current playback
 
-#### `./restart.sh`
-Restarts the currently playing file
+#### `./mpv-client -v <amount>`
+Change Volume by \<amount>
 
-#### `./pause.sh`
-Pauses the playing file
+<br>
 
-#### `./unpause.sh`
-Unpauses the playing file
+#### `./mpv-client -l`
+Toggle Playback Looping
+
+#### `./mpv-client -r`
+Restart Playback
+
+#### `./mpv-client -p`
+Play Previous
+
+#### `./mpv-client -P`
+Toggle Playback
+
+#### `./mpv-client -n`
+Play Next
