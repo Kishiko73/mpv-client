@@ -37,7 +37,7 @@ EOF
 
 while getopts "S:a:c:q:s:v:lrpPn" opt; do
     case "${opt}" in
-        S) mpv $OPTARG --input-ipc-server=$SOCKET --profile=music --terminal=no --shuffle --loop-playlist & ;;
+        S) mpv $OPTARG --input-ipc-server=$SOCKET --terminal=no --shuffle --loop-playlist & ;;
         a) mpv-cmd '"loadfile", "'$OPTARG'", "append-play"' ;;
         c)
             mpv-cmd '"loadfile", "'$OPTARG'", "insert-next"'
